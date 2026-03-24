@@ -73,7 +73,6 @@
             text-transform: uppercase;
         }
 
-        /* Основной макет */
         .main {
             display: flex;
             padding: 25px;
@@ -81,7 +80,6 @@
             background: #f2f7f4;
         }
 
-        /* Левая панель с кнопками */
         .sidebar {
             flex: 0 0 240px;
             background: white;
@@ -153,7 +151,6 @@
             margin: 15px 0;
         }
 
-        /* Правая панель с таблицей */
         .content {
             flex: 1;
             background: white;
@@ -183,7 +180,6 @@
             font-size: 14px;
         }
 
-        /* Таблица */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -282,7 +278,7 @@
             background: #ffe6e6;
         }
 
-        /* Модальное окно */
+
         .modal {
             position: fixed;
             top: 0;
@@ -382,7 +378,7 @@
 </head>
 <body>
 <div class="container">
-    <!-- Шапка -->
+    
     <div class="header">
         <h1>СУПЕРМАРКЕТ <span>· Управление товарами</span></h1>
         <div class="stats">
@@ -405,9 +401,8 @@
         </div>
     </div>
 
-    <!-- Основная часть -->
+
     <div class="main">
-        <!-- Левое меню -->
         <div class="sidebar">
             <div class="sidebar-title">ДЕЙСТВИЯ</div>
             <div class="btn-group">
@@ -433,7 +428,6 @@
             </div>
         </div>
 
-        <!-- Правая панель -->
         <div class="content">
             <div class="content-header">
                 <h2>Список товаров</h2>
@@ -463,7 +457,6 @@
     </div>
 </div>
 
-<!-- Модальное окно -->
 <div class="modal" id="modal">
     <div class="modal-content">
         <h3 id="modalTitle">Добавить товар</h3>
@@ -476,7 +469,7 @@
 </div>
 
 <script>
-    // Классы товаров
+    
     class Supermarket {
         constructor(nameotdela, name, cuntry, retailPrice, namesource) {
             this.nameotdela = nameotdela;
@@ -515,12 +508,11 @@
         }
     }
 
-    // Хранилище
     let products = [];
     let currentEditId = null;
     let currentModalType = 'TOYS';
 
-    // Демо-данные
+    
     function loadDemoData() {
         products = [
             new Toys("Игрушки", "LEGO City", "Дания", 2499.00, "LEGO Group", "от 6 лет", "Конструктор"),
@@ -530,7 +522,6 @@
         renderTable();
     }
 
-    // Сохранение
     function saveToFile() {
         try {
             const data = products.map(p => {
