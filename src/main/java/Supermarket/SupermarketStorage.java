@@ -290,7 +290,6 @@ public class SupermarketStorage {
     public void run() {
         Scanner sc = new Scanner(System.in);
 
-        // Демо-данные
         add(new Toys("Игрушки", "LEGO City", "Дания", 2499.00, "LEGO Group", "от 6 лет", "Конструктор"));
         add(new Fruits("Фрукты", "Бананы", "Эквадор", 89.90, "TropicFresh", 7, 13.5));
         add(new BulkyGoods("Техника", "Холодильник Samsung", "Юж. Корея", 54999.00, "Samsung", 185.0, 60.0, 65.0));
