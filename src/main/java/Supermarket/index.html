@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Супермаркет</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background: #1a3a2e;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Шапка */
+        .header {
+            background: #0d2c21;
+            padding: 20px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #c9a23b;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 span {
+            color: #e2b74c;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: flex;
+            gap: 25px;
+            background: #1f4437;
+            padding: 10px 25px;
+            border-radius: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #e2b74c;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        /* Основной макет */
+        .main {
+            display: flex;
+            padding: 25px;
+            gap: 25px;
+            background: #f2f7f4;
+        }
+
+        /* Левая панель с кнопками */
+        .sidebar {
+            flex: 0 0 240px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0d2c21;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #c9a23b;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f0f7f3;
+            color: #1f4437;
+            border: 1px solid #d0e2d8;
+        }
+
+        .btn:hover {
+            background: #e2b74c;
+            color: #0d2c21;
+            border-color: #b38f2f;
+        }
+
+        .btn-danger {
+            background: #ffeeee;
+            color: #b33c3c;
+            border-color: #ffcdcd;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            color: white;
+            border-color: #8b1e1e;
+        }
+
+        .btn-success {
+            background: #e2f0e8;
+            color: #11643c;
+        }
+
+        .btn-success:hover {
+            background: #1e7b4b;
+            color: white;
+        }
+
+        .separator {
+            height: 1px;
+            background: #d0e2d8;
+            margin: 15px 0;
+        }
+
+        /* Правая панель с таблицей */
+        .content {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content-header h2 {
+            font-size: 18px;
+            color: #1f4437;
+            font-weight: 500;
+        }
+
+        .count-badge {
+            background: #1f4437;
+            color: #e2b74c;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 10px;
+            background: #eef6f1;
+            color: #0d2c21;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #d9eadb;
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: #fff9e6;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-toys {
+            background: #f7d9aa;
+            color: #5f3d0e;
+        }
+
+        .type-fruits {
+            background: #fbcfcf;
+            color: #9c2e2e;
+        }
+
+        .type-bulky {
+            background: #bdd8f0;
+            color: #154a79;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #1b6b43;
+        }
+
+        .extra-info {
+            font-size: 12px;
+            color: #386651;
+            margin-top: 4px;
+        }
+
+        .extra-info span {
+            background: #e4f0e8;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            background: none;
+        }
+
+        .icon-btn.edit {
+            color: #c98a2b;
+        }
+
+        .icon-btn.edit:hover {
+            background: #fff0d6;
+        }
+
+        .icon-btn.delete {
+            color: #b33c3c;
+        }
+
+        .icon-btn.delete:hover {
+            background: #ffe6e6;
+        }
+
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 450px;
+            max-width: 90%;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .modal-content h3 {
+            font-size: 22px;
+            color: #0d2c21;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #c9a23b;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #1f4437;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #c8e0d2;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8fcf9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #c9a23b;
+            background: white;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #1b6b43;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #0f4f31;
+        }
+
+        .btn-cancel {
+            background: #e0e7e2;
+            color: #1f4437;
+        }
+
+        .btn-cancel:hover {
+            background: #c7d9ce;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #7f9c8b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Шапка -->
+    <div class="header">
+        <h1>СУПЕРМАРКЕТ <span>· Управление товарами</span></h1>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalCount">0</div>
+                <div class="stat-label">Всего</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="toysCount">0</div>
+                <div class="stat-label">Игрушки</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="fruitsCount">0</div>
+                <div class="stat-label">Фрукты</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="bulkyCount">0</div>
+                <div class="stat-label">Габаритные товары</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основная часть -->
+    <div class="main">
+        <!-- Левое меню -->
+        <div class="sidebar">
+            <div class="sidebar-title">ДЕЙСТВИЯ</div>
+            <div class="btn-group">
+                <button class="btn" onclick="openModal('TOYS')">+ Добавить игрушку</button>
+                <button class="btn" onclick="openModal('FRUITS')">+ Добавить фрукт</button>
+                <button class="btn" onclick="openModal('BULKY')">+ Добавить габаритный</button>
+
+                <div class="separator"></div>
+
+                <button class="btn" onclick="sortByPriceAsc()">↑ По цене (возрастание)</button>
+                <button class="btn" onclick="sortByPriceDesc()">↓ По цене (убывание)</button>
+                <button class="btn" onclick="sortByCountry()">→ По стране (А-Я)</button>
+
+                <div class="separator"></div>
+
+                <button class="btn btn-success" onclick="saveToFile()">💾 Сохранить</button>
+                <button class="btn btn-success" onclick="loadFromFile()">📂 Загрузить</button>
+
+                <div class="separator"></div>
+
+                <button class="btn btn-danger" onclick="deleteSelected()">✕ Удалить товар</button>
+                <button class="btn btn-danger" onclick="resetAll()">↺ Сброс демо</button>
+            </div>
+        </div>
+
+        <!-- Правая панель -->
+        <div class="content">
+            <div class="content-header">
+                <h2>Список товаров</h2>
+                <span class="count-badge" id="tableCount">0</span>
+            </div>
+
+            <table id="productTable">
+                <thead>
+                <tr>
+                    <th>Тип</th>
+                    <th>Наименование</th>
+                    <th>Отдел</th>
+                    <th>Страна</th>
+                    <th>Цена</th>
+                    <th>Поставщик</th>
+                    <th>Характеристики</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+            <div class="empty-message" id="emptyMessage">
+                Список товаров пуст. Добавьте новый товар.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Добавить товар</h3>
+        <div id="modalFields"></div>
+        <div class="modal-actions">
+            <button class="btn-save" id="modalSaveBtn">Сохранить</button>
+            <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Классы товаров
+    class Supermarket {
+        constructor(nameotdela, name, cuntry, retailPrice, namesource) {
+            this.nameotdela = nameotdela;
+            this.name = name;
+            this.cuntry = cuntry;
+            this.retailPrice = retailPrice;
+            this.namesource = namesource;
+        }
+    }
+
+    class Toys extends Supermarket {
+        constructor(nameotdela, name, cuntry, retailPrice, namesource, ageGroup, type) {
+            super(nameotdela, name, cuntry, retailPrice, namesource);
+            this.ageGroup = ageGroup;
+            this.type = type;
+            this.category = 'TOYS';
+        }
+    }
+
+    class Fruits extends Supermarket {
+        constructor(nameotdela, name, cuntry, retailPrice, namesource, maxStorageTime, storageTemperature) {
+            super(nameotdela, name, cuntry, retailPrice, namesource);
+            this.maxStorageTime = maxStorageTime;
+            this.storageTemperature = storageTemperature;
+            this.category = 'FRUITS';
+        }
+    }
+
+    class BulkyGoods extends Supermarket {
+        constructor(nameotdela, name, cuntry, retailPrice, namesource, height, width, length) {
+            super(nameotdela, name, cuntry, retailPrice, namesource);
+            this.height = height;
+            this.width = width;
+            this.length = length;
+            this.category = 'BULKY';
+        }
+    }
+
+    // Хранилище
+    let products = [];
+    let currentEditId = null;
+    let currentModalType = 'TOYS';
+
+    // Демо-данные
+    function loadDemoData() {
+        products = [
+            new Toys("Игрушки", "LEGO City", "Дания", 2499.00, "LEGO Group", "от 6 лет", "Конструктор"),
+            new Fruits("Фрукты", "Бананы", "Эквадор", 89.90, "TropicFresh", 7, 13.5),
+            new BulkyGoods("Техника", "Холодильник Samsung", "Юж. Корея", 54999.00, "Samsung", 185.0, 60.0, 65.0)
+        ];
+        renderTable();
+    }
+
+    // Сохранение
+    function saveToFile() {
+        try {
+            const data = products.map(p => {
+                if (p instanceof Toys) return { ...p, category: 'TOYS' };
+                if (p instanceof Fruits) return { ...p, category: 'FRUITS' };
+                if (p instanceof BulkyGoods) return { ...p, category: 'BULKY' };
+            });
+            localStorage.setItem('supermarketData', JSON.stringify(data));
+            alert('Данные сохранены');
+        } catch (e) {
+            alert('Ошибка сохранения');
+        }
+    }
+
+    function loadFromFile() {
+        try {
+            const raw = localStorage.getItem('supermarketData');
+            if (!raw) { alert('Нет сохранённых данных'); return; }
+            const list = JSON.parse(raw);
+            products = list.map(item => {
+                if (item.category === 'TOYS')
+                    return new Toys(item.nameotdela, item.name, item.cuntry, item.retailPrice, item.namesource, item.ageGroup, item.type);
+                if (item.category === 'FRUITS')
+                    return new Fruits(item.nameotdela, item.name, item.cuntry, item.retailPrice, item.namesource, item.maxStorageTime, item.storageTemperature);
+                if (item.category === 'BULKY')
+                    return new BulkyGoods(item.nameotdela, item.name, item.cuntry, item.retailPrice, item.namesource, item.height, item.width, item.length);
+            }).filter(p=>p);
+            renderTable();
+            alert(`Загружено ${products.length} товаров`);
+        } catch (e) {
+            alert('Ошибка загрузки');
+        }
+    }
+
+    function deleteSelected() {
+        if (products.length === 0) { alert('Нет товаров'); return; }
+        const names = products.map((p,i) => `${i+1}. ${p.name} (${p.retailPrice} руб.)`).join('\n');
+        const idx = prompt(`Введите номер товара для удаления (0 - отмена):\n${names}`);
+        if (idx === null) return;
+        const num = parseInt(idx);
+        if (num === 0) return;
+        if (isNaN(num) || num < 1 || num > products.length) { alert('Неверный номер'); return; }
+        if (confirm(`Удалить "${products[num-1].name}"?`)) {
+            products.splice(num-1, 1);
+            renderTable();
+        }
+    }
+
+    function resetAll() {
+        loadDemoData();
+    }
+
+    function sortByPriceAsc() {
+        products.sort((a,b) => a.retailPrice - b.retailPrice);
+        renderTable();
+    }
+
+    function sortByPriceDesc() {
+        products.sort((a,b) => b.retailPrice - a.retailPrice);
+        renderTable();
+    }
+
+    function sortByCountry() {
+        products.sort((a,b) => a.cuntry.localeCompare(b.cuntry));
+        renderTable();
+    }
+
+    function openModal(type, editId = null) {
+        currentModalType = type;
+        currentEditId = editId;
+        document.getElementById('modal').style.display = 'flex';
+
+        let title = editId !== null ? 'Редактировать' : 'Добавить';
+        if (type === 'TOYS') title += ' игрушку';
+        else if (type === 'FRUITS') title += ' фрукт';
+        else title += ' габаритный товар';
+        document.getElementById('modalTitle').textContent = title;
+
+        let html = '';
+        const common = `
+            <div class="form-group"><label>Отдел</label><input id="modalDept" value="${editId !== null ? products[editId].nameotdela : ''}"></div>
+            <div class="form-group"><label>Наименование</label><input id="modalName" value="${editId !== null ? products[editId].name : ''}"></div>
+            <div class="form-group"><label>Страна</label><input id="modalCountry" value="${editId !== null ? products[editId].cuntry : ''}"></div>
+            <div class="form-group"><label>Цена (руб)</label><input id="modalPrice" type="number" step="0.01" value="${editId !== null ? products[editId].retailPrice : ''}"></div>
+            <div class="form-group"><label>Поставщик</label><input id="modalSource" value="${editId !== null ? products[editId].namesource : ''}"></div>
+        `;
+
+        if (type === 'TOYS') {
+            html = common + `
+                <div class="form-group"><label>Возрастная группа</label><input id="modalAge" value="${editId !== null ? products[editId].ageGroup : ''}"></div>
+                <div class="form-group"><label>Тип игрушки</label><input id="modalToyType" value="${editId !== null ? products[editId].type : ''}"></div>
+            `;
+        } else if (type === 'FRUITS') {
+            html = common + `
+                <div class="form-group"><label>Макс. дней хранения</label><input id="modalDays" type="number" value="${editId !== null ? products[editId].maxStorageTime : ''}"></div>
+                <div class="form-group"><label>Температура (°C)</label><input id="modalTemp" type="number" step="0.1" value="${editId !== null ? products[editId].storageTemperature : ''}"></div>
+            `;
+        } else if (type === 'BULKY') {
+            html = common + `
+                <div class="form-group"><label>Высота (см)</label><input id="modalHeight" type="number" step="0.1" value="${editId !== null ? products[editId].height : ''}"></div>
+                <div class="form-group"><label>Ширина (см)</label><input id="modalWidth" type="number" step="0.1" value="${editId !== null ? products[editId].width : ''}"></div>
+                <div class="form-group"><label>Длина (см)</label><input id="modalLength" type="number" step="0.1" value="${editId !== null ? products[editId].length : ''}"></div>
+            `;
+        }
+        document.getElementById('modalFields').innerHTML = html;
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    document.getElementById('modalSaveBtn').addEventListener('click', ()=>{
+        const dept = document.getElementById('modalDept')?.value;
+        const name = document.getElementById('modalName')?.value;
+        const country = document.getElementById('modalCountry')?.value;
+        const price = parseFloat(document.getElementById('modalPrice')?.value);
+        const source = document.getElementById('modalSource')?.value;
+
+        if (!dept || !name || !country || isNaN(price) || !source) {
+            alert('Заполните все поля');
+            return;
+        }
+
+        try {
+            if (currentModalType === 'TOYS') {
+                const age = document.getElementById('modalAge')?.value;
+                const ttype = document.getElementById('modalToyType')?.value;
+                if (!age || !ttype) throw new Error('Заполните все поля');
+                const toy = new Toys(dept, name, country, price, source, age, ttype);
+                if (currentEditId !== null) products[currentEditId] = toy;
+                else products.push(toy);
+            }
+            else if (currentModalType === 'FRUITS') {
+                const days = parseInt(document.getElementById('modalDays')?.value);
+                const temp = parseFloat(document.getElementById('modalTemp')?.value);
+                if (isNaN(days) || isNaN(temp)) throw new Error('Проверьте поля');
+                const fruit = new Fruits(dept, name, country, price, source, days, temp);
+                if (currentEditId !== null) products[currentEditId] = fruit;
+                else products.push(fruit);
+            }
+            else if (currentModalType === 'BULKY') {
+                const h = parseFloat(document.getElementById('modalHeight')?.value);
+                const w = parseFloat(document.getElementById('modalWidth')?.value);
+                const l = parseFloat(document.getElementById('modalLength')?.value);
+                if (isNaN(h)||isNaN(w)||isNaN(l)) throw new Error('Введите габариты');
+                const bulky = new BulkyGoods(dept, name, country, price, source, h, w, l);
+                if (currentEditId !== null) products[currentEditId] = bulky;
+                else products.push(bulky);
+            }
+            renderTable();
+            closeModal();
+        } catch(e) {
+            alert('Ошибка: ' + e.message);
+        }
+    });
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        const emptyMsg = document.getElementById('emptyMessage');
+
+        if (products.length === 0) {
+            tbody.innerHTML = '';
+            emptyMsg.style.display = 'block';
+        } else {
+            emptyMsg.style.display = 'none';
+            let html = '';
+            products.forEach((p, idx) => {
+                let typeLabel = '', typeClass = '', extra = '';
+
+                if (p instanceof Toys) {
+                    typeLabel = 'Игрушка'; typeClass = 'type-toys';
+                    extra = `<div class="extra-info"><span>${p.ageGroup}</span><span>${p.type}</span></div>`;
+                } else if (p instanceof Fruits) {
+                    typeLabel = 'Фрукт'; typeClass = 'type-fruits';
+                    extra = `<div class="extra-info"><span>${p.maxStorageTime} дн.</span><span>${p.storageTemperature}°C</span></div>`;
+                } else if (p instanceof BulkyGoods) {
+                    typeLabel = 'Габаритный'; typeClass = 'type-bulky';
+                    extra = `<div class="extra-info"><span>${p.height}×${p.width}×${p.length} см</span></div>`;
+                }
+
+                html += `<tr>
+                    <td><span class="type-badge ${typeClass}">${typeLabel}</span></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.nameotdela}</td>
+                    <td>${p.cuntry}</td>
+                    <td class="price">${p.retailPrice.toFixed(2)} ₽</td>
+                    <td>${p.namesource}</td>
+                    <td>${extra}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="icon-btn edit" onclick="openModal('${p.category}', ${idx})">✎</button>
+                            <button class="icon-btn delete" onclick="deleteSingle(${idx})">✕</button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        document.getElementById('totalCount').innerText = products.length;
+        document.getElementById('toysCount').innerText = products.filter(p => p instanceof Toys).length;
+        document.getElementById('fruitsCount').innerText = products.filter(p => p instanceof Fruits).length;
+        document.getElementById('bulkyCount').innerText = products.filter(p => p instanceof BulkyGoods).length;
+        document.getElementById('tableCount').innerText = products.length;
+    }
+
+    function deleteSingle(idx) {
+        if (confirm(`Удалить ${products[idx].name}?`)) {
+            products.splice(idx, 1);
+            renderTable();
+        }
+    }
+
+    window.onload = () => {
+        loadDemoData();
+    };
+
+    window.onclick = (e) => {
+        const modal = document.getElementById('modal');
+        if (e.target === modal) closeModal();
+    };
+</script>
+</body>
+</html>
